@@ -25,7 +25,7 @@
         <el-row :gutter="16">
           <el-col :xs="24" :sm="12">
             <el-form-item label="供应商" prop="supplier">
-              <RemoteSelect v-model="formData.supplier" type="supplier" :allow-create="true" placeholder="请输入或选择供应商" />
+              <el-input v-model="formData.supplier"  placeholder="请输入或选择供应商" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -40,12 +40,12 @@
               <el-row :gutter="12">
                 <el-col :xs="24" :sm="12">
                 <el-form-item :prop="`items.${idx}.productSpec`" :rules="requiredRules" label="品名规格">
-                  <RemoteSelect v-model="row.productSpec" type="productSpec" :allow-create="true" placeholder="品名规格" />
+                  <el-input v-model="row.productSpec" placeholder="品名规格" />
                 </el-form-item>
               </el-col>
               <el-col :xs="24" :sm="12">
                 <el-form-item :prop="`items.${idx}.composition`" :rules="requiredRules" label="成分">
-                  <RemoteSelect v-model="row.composition" type="composition" :allow-create="true" placeholder="成分" />
+                  <el-input v-model="row.composition" placeholder="成分" />
                 </el-form-item>
               </el-col>
               <el-col :xs="24" :sm="12">
@@ -131,10 +131,12 @@ import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { inventoryAPI } from '@/api'
 import { formatDate } from '@/helpers/date'
+import { generateUUID } from '@/helpers'
 import OperationBar from '../../../components/OperationBar.vue'
 import TaxInvoiceUpload from '@/components/TaxInvoiceUpload.vue'
 import RemoteSelect from '@/components/RemoteSelect/index.vue'
 import { useOptionStore } from '@/stores'
+
 
 const route = useRoute()
 const router = useRouter()
@@ -179,7 +181,7 @@ const goBack = () => {
 
 const addItem = () => {
   formData.items.push({
-    id: self.crypto.randomUUID(),
+    id: generateUUID(),
     productSpec: '',
     composition: '',
     weight: null as any,
@@ -197,7 +199,7 @@ const addItem = () => {
 }
 const addAfter = (idx: number) => {
   const item = {
-    id: self.crypto.randomUUID(),
+    id: generateUUID(),
     productSpec: '',
     composition: '',
     weight: null as any,

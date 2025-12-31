@@ -204,6 +204,7 @@ import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { inventoryAPI } from '@/api'
 import { formatDate } from '@/helpers/date'
+import { generateUUID } from '@/helpers'
 import OperationBar from '@/components/OperationBar.vue'
 import TaxInvoiceUpload from '@/components/TaxInvoiceUpload.vue'
 import RemoteSelect from '@/components/RemoteSelect/index.vue'
@@ -433,7 +434,7 @@ const clearDraft = async () => {
 
 const draftKey = 'draft:outbound:add:batch'
 
-const cryptoRandom = () => self.crypto.randomUUID()
+const cryptoRandom = () => generateUUID()
 
 const sanitizeDetailSections = () => {
   formData.detailSections = (formData.detailSections || []).map((sec: any) => ({
