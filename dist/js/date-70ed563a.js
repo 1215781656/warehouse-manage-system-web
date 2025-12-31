@@ -1,0 +1,1 @@
+const s=t=>String(t).padStart(2,"0"),r=t=>{const o=typeof t=="string"?new Date(t):t,n=o.getFullYear(),e=s(o.getMonth()+1),a=s(o.getDate());return`${n}-${e}-${a}`},c=t=>{if(!t||!Array.isArray(t)||t.length<2)return{};const o=r(t[0]),n=r(t[1]);return{start:o?`${o} 00:00:00`:void 0,end:n?`${n} 23:59:59`:void 0}};export{r as f,c as r};
