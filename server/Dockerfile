@@ -13,7 +13,6 @@ ENV YARN_REGISTRY=${TAOBAO_REGISTRY}
 ENV YARN_NPM_REGISTRY_SERVER=${TAOBAO_REGISTRY}
 RUN yarn config set registry ${TAOBAO_REGISTRY} && yarn config set network-timeout 600000
 ENV npm_config_disturl=https://npmmirror.com/mirrors/node
-RUN apk add --no-cache python3 make g++ && npm config set python /usr/bin/python3 && export PYTHON=/usr/bin/python3
 
 # Install production dependencies
 # Note: We use --ignore-scripts to avoid potential issues with pre/post install scripts in some environments, 
