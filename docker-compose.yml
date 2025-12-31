@@ -1,62 +1,62 @@
 version: '3.8'
 
 services:
-  db:
+  mysql:
     image: mysql:8.0
-    container_name: warehouse_db
+    container_name: warehouse_mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: warehouse_db
-      TZ: Asia/Shanghai # 设置时区
+      MYSQL_ROOT_PASSWORD: root_password_please_change
+      # Database and User creation is handled by mounted scripts in /docker-entrypoint-initdb.d
     volumes:
-      - db_data:/var/lib/mysql
-      - ./server/sql/schema.sql:/docker-entrypoint-initdb.d/1_schema.sql
-      - ./server/sql/mysql_setup.sql:/docker-entrypoint-initdb.d/2_setup.sql
-    command: --default-authentication-plugin=mysql_native_password
+      - ./server/sql:/docker-entrypoint-initdb.d
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306" # Exposed for debugging, can remove in production
     networks:
-      - app-network
+      - warehouse_net
 
   backend:
     build:
       context: ./server
-      dockerfile: Dockerfile.production
+      dockerfile: Dockerfile
     container_name: warehouse_backend
     restart: always
-    environment:
-      DB_HOST: db
-      DB_PORT: 3306
-      DB_USERNAME: root
-      DB_PASSWORD: rootpassword
-      DB_DATABASE: warehouse_db
-      JWT_SECRET: your_production_secret
-      NODE_ENV: production
-      TZ: Asia/Shanghai
-    depends_on:
-      - db
     ports:
-      - '3000:3000'
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_USER=fabric_app
+      - DB_PASS=123456
+      - DB_NAME=fabric_db
+      # Ensure JWT_SECRET matches your local .env or set a new one here
+      - JWT_SECRET=${JWT_SECRET:-default_secret_please_change}
+    depends_on:
+      - mysql
+    volumes:
+      - ./server/server_uploads:/app/server_uploads
     networks:
-      - app-network
+      - warehouse_net
 
   frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile.production
+    image: nginx:alpine
     container_name: warehouse_frontend
     restart: always
-    environment:
-      - VUE_APP_API_BASE_URL=http://175.178.62.26:3000/api
     ports:
-      - '80:80'
+      - "80:80"
+    volumes:
+      - ./dist:/usr/share/nginx/html
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - backend
     networks:
-      - app-network
+      - warehouse_net
 
 volumes:
-  db_data:
+  mysql_data:
 
 networks:
-  app-network:
+  warehouse_net:
     driver: bridge
