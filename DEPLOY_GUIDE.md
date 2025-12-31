@@ -10,6 +10,7 @@
 
 ```bash
 # 1. 构建前端
+# 已预置淘宝源镜像配置，安装更稳定更快速
 yarn install
 yarn build
 # 成功后，根目录下会生成 dist 文件夹
