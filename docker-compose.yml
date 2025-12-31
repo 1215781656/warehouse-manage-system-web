@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  # MySQL 数据库服务
+  db:
+    image: mysql:8.0
+    container_name: warehouse_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword # 开发环境默认密码，生产环境请修改
+      MYSQL_DATABASE: warehouse_db
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./server/sql/schema.sql:/docker-entrypoint-initdb.d/1_schema.sql # 初始化脚本
+      - ./server/sql/mysql_setup.sql:/docker-entrypoint-initdb.d/2_setup.sql # 补充脚本
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - app-network
+
+  # 后端 NestJS 服务
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: warehouse_backend
+    restart: always
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USERNAME: root
+      DB_PASSWORD: rootpassword
+      DB_DATABASE: warehouse_db
+      JWT_SECRET: dev_secret_key_change_in_prod # 生产环境请修改
+      PORT: 3000
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  # 前端 Vue + Nginx 服务
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: warehouse_frontend
+    restart: always
+    ports:
+      - "80:80" # 映射宿主机 80 端口
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+# 定义持久化数据卷
+volumes:
+  db_data:
+
+# 定义网络
+networks:
+  app-network:
+    driver: bridge
