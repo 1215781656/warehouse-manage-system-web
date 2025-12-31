@@ -1,0 +1,32 @@
+.el-table .el-loading-mask {
+  background-color: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(1px);
+}
+.el-table .el-loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.el-table .el-loading-spinner .circular {
+  width: 28px;
+  height: 28px;
+}
+.el-table .el-loading-spinner::after {
+  content: "数据加载中...";
+  margin-top: 8px;
+  color: var(--el-text-color-regular);
+  font-size: 14px;
+}
+@media (max-width: 768px) {
+  .el-table .el-loading-spinner::after {
+    font-size: 13px;
+  }
+}
+/* 当使用 element-loading-text 时，优先显示自定义文案（支持现代浏览器） */
+.el-table .el-loading-spinner:has(+ .el-loading-text)::after {
+  content: "";
+}
+
+.el-container {
+  height: 100%;
+}

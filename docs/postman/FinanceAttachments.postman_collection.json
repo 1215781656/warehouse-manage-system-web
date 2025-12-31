@@ -1,0 +1,122 @@
+{
+  "info": {
+    "name": "Finance Attachments",
+    "_postman_id": "b2f6b3b8-1a8b-4f10-9f3d-attach",
+    "description": "财务模块附件相关接口集合",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Receivable Detail",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": { "raw": "{{base}}/api/v1/finance/receivable/{{id}}", "host": ["{{base}}"], "path": ["api","v1","finance","receivable","{{id}}"] }
+      }
+    },
+    {
+      "name": "Payable Detail",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": { "raw": "{{base}}/api/v1/finance/payable/{{id}}", "host": ["{{base}}"], "path": ["api","v1","finance","payable","{{id}}"] }
+      }
+    },
+    {
+      "name": "Upload Tax Invoice (Receivable)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            { "key": "files", "type": "file", "src": "" }
+          ]
+        },
+        "url": { "raw": "{{base}}/api/v1/finance/receivable/{{id}}/attachments/tax-invoice", "host": ["{{base}}"], "path": ["api","v1","finance","receivable","{{id}}","attachments","tax-invoice"] }
+      }
+    },
+    {
+      "name": "Upload Other (Receivable)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            { "key": "files", "type": "file", "src": "" }
+          ]
+        },
+        "url": { "raw": "{{base}}/api/v1/finance/receivable/{{id}}/attachments/other", "host": ["{{base}}"], "path": ["api","v1","finance","receivable","{{id}}","attachments","other"] }
+      }
+    },
+    {
+      "name": "Upload Tax Invoice (Payable)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            { "key": "files", "type": "file", "src": "" }
+          ]
+        },
+        "url": { "raw": "{{base}}/api/v1/finance/payable/{{id}}/attachments/tax-invoice", "host": ["{{base}}"], "path": ["api","v1","finance","payable","{{id}}","attachments","tax-invoice"] }
+      }
+    },
+    {
+      "name": "Upload Other (Payable)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            { "key": "files", "type": "file", "src": "" }
+          ]
+        },
+        "url": { "raw": "{{base}}/api/v1/finance/payable/{{id}}/attachments/other", "host": ["{{base}}"], "path": ["api","v1","finance","payable","{{id}}","attachments","other"] }
+      }
+    },
+    {
+      "name": "Delete Tax Attachment",
+      "request": {
+        "method": "DELETE",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": { "raw": "{{base}}/api/v1/finance/attachments/tax/{{attachmentId}}", "host": ["{{base}}"], "path": ["api","v1","finance","attachments","tax","{{attachmentId}}"] }
+      }
+    },
+    {
+      "name": "Delete Other Attachment",
+      "request": {
+        "method": "DELETE",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": { "raw": "{{base}}/api/v1/finance/attachments/other/{{attachmentId}}", "host": ["{{base}}"], "path": ["api","v1","finance","attachments","other","{{attachmentId}}"] }
+      }
+    },
+    {
+      "name": "Download Tax Attachment",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": { "raw": "{{base}}/api/v1/finance/attachments/tax/{{file}}/download", "host": ["{{base}}"], "path": ["api","v1","finance","attachments","tax","{{file}}","download"] }
+      }
+    },
+    {
+      "name": "Download Other Attachment",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": { "raw": "{{base}}/api/v1/finance/attachments/other/{{file}}/download", "host": ["{{base}}"], "path": ["api","v1","finance","attachments","other","{{file}}","download"] }
+      }
+    }
+  ],
+  "variable": [
+    { "key": "base", "value": "http://localhost:3000" },
+    { "key": "token", "value": "" },
+    { "key": "id", "value": "" },
+    { "key": "attachmentId", "value": "" },
+    { "key": "file", "value": "" }
+  ]
+}
+
